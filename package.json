@@ -23,6 +23,8 @@
     "@popperjs/core": "^2.8.6",
     "bootstrap": "^5.0.0-beta2",
     "jquery": "^3.5.1",
+    "keycloak-angular": "^8.1.0",
+    "keycloak-js": "^12.0.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
