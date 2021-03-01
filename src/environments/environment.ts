@@ -6,7 +6,9 @@ export const environment = {
   production: false,
   keycloakUrl: "http://localhost:8080/auth",
   realm: "cocus",
-  clientId: "cocuswebclient"
+  clientId: "cocuswebclient",
+  caseApi: "http://localhost:8083",
+  labelApi: "http://localhost:8082",
 };
 
 /*

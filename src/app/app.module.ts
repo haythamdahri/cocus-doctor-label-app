@@ -8,18 +8,31 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CasesComponent } from './cases/cases.component';
 import initializeKeycloak from './services/auth/init-keycloak';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+import { LabelsComponent } from './labels/labels.component';
+import { LabelsFormComponent } from './labels/labels-form/labels-form.component';
+import { CasesFormComponent } from './cases/cases-form/cases-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    CasesComponent
+    CasesComponent,
+    LabelsComponent,
+    LabelsFormComponent,
+    CasesFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    KeycloakAngularModule
+    KeycloakAngularModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule
   ],
   providers: [
     {

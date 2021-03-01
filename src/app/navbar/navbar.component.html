@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
       <img src="/assets/logo.png" alt="" width="30" height="30" class="d-inline-block align-top">
       COCUS
     </a>
@@ -26,12 +26,6 @@
           <a class="nav-link" routerLink="/labels" routerLinkActive="active"
             [routerLinkActiveOptions]="{exact: true}">
             <i class="fas fa-tags"></i> Labels
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/labeling" routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: true}">
-            <i class="fas fa-clipboard-check"></i> Cases Labeling
           </a>
         </li>
       </ul>
