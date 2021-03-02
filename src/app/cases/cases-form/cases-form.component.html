@@ -1,1 +1,67 @@
-<p>cases-form works!</p>
+<div class="row pb-5">
+    <div class="col-12 text-center">
+        <strong>
+            <h1 class="display-4 text-center text-cocus">Case Form
+            </h1>
+            <hr />
+        </strong>
+    </div>
+    <div class="col-8 mx-auto mt-4">
+        <!-- SPINNER -->
+        <div class="col-12 text-center" *ngIf="loading">
+            <div class="spinner-grow text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-secondary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-success" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-danger" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-info" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-dark" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div class="card-text">
+            <form [formGroup]="form" (ngSubmit)="onCaseSave()" *ngIf="!error">
+                <div class="form-group">
+                    <label for="content" class="fw-bold">Content:</label>
+                    <textarea formControlName="content" [(ngModel)]="customerCase.content" [readonly]="loading" [ngClass]="{
+                    'is-invalid':
+                      form.controls.content.touched &&
+                      form.controls.content.invalid,
+                    'is-valid':
+                      form.controls.content.touched &&
+                      form.controls.content.valid
+                  }" class="form-control" id="content" rows="10" placeholder="Case content ..."></textarea>
+                    <div class="invalid-feedback" *ngIf="
+                    form.controls.content.touched &&
+                    form.controls.content.invalid
+                  ">
+                        Invalid case content
+                    </div>
+                </div>
+                <button type="submit" #saveBtn [disabled]="form.invalid || loading"
+                    class="mt-4 btn-block btn btn-warning btn-sm btn-block">
+                    <i class="fas fa-sign-in-alt"></i> Save
+                </button>
+            </form>
+            <div class="alert alert-danger" role="alert" *ngIf="!loading && error">
+                An error occurred!
+            </div>
+        </div>
+    </div>
+</div>

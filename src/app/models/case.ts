@@ -1,3 +1,3 @@
 export class Case {
-    constructor(id: Number, description: string) {}
+    constructor(public id: string, public content: string) {}
 }
