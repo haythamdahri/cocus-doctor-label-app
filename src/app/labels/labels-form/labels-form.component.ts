@@ -87,6 +87,18 @@ export class LabelsFormComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.labelSubscription = this.labelService.saveLabel(this.label?.id, this.label).subscribe(
       (label) => {
+        // Set Form Value
+        this.form.patchValue({description: label?.description});
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-right",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        Toast.fire({
+          icon: 'success',
+          title: 'Label has been saved successfully',
+        });
         // Check If New Label Then Redirect
         if( this.label.id === '' || this.label.id === null ) {
           this.router.navigateByUrl(`/labels/save/${label?.id}`);
@@ -94,18 +106,6 @@ export class LabelsFormComponent implements OnInit, OnDestroy {
         }
         this.label = label;
         this.loading = false;
-        // Set Form Value
-        this.form.patchValue({description: label?.description});
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "bottom-left",
-          showConfirmButton: false,
-          timer: 3000,
-        });
-        Toast.fire({
-          icon: 'success',
-          title: 'Label has been saved successfulmy',
-        });
       },
       (err) => {
         console.log(err);

@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12 text-center">
         <strong>
-            <h1 class="display-4 text-center text-primary">Labels</h1>
+            <h1 class="display-4 text-center text-cocus">Labels</h1>
             <hr />
             <a routerLink="/labels/save"><button class="btn btn-primary btn-sm mt-3"><i class="fas fa-plus-circle"></i>
                     Add new label</button></a>
@@ -31,6 +31,14 @@
                         </button>
                     </td>
                 </tr>
+
+                <ng-container *ngIf="!loading && !error && labels?.length == 0">
+                    <tr align="center">
+                        <th scope="row" class="text-center" colspan="3">
+                            <i class="fas fa-info"></i> No Labels Found!
+                        </th>
+                    </tr>
+                </ng-container>
                 <ng-container *ngIf="loading && !error">
                     <tr align="center">
                         <th scope="row" class="text-center" colspan="3">

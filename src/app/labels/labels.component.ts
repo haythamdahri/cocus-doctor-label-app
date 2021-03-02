@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { Label } from '../models/label';
@@ -10,7 +10,8 @@ import Swal from 'sweetalert2';
   templateUrl: './labels.component.html',
   styleUrls: ['./labels.component.sass'],
 })
-export class LabelsComponent implements OnInit {
+export class LabelsComponent implements OnInit, OnDestroy {
+  
   labels: Label[] = [];
   loading: boolean = true;
   error: boolean = false;
@@ -57,7 +58,7 @@ export class LabelsComponent implements OnInit {
     // User Confirmation
     Swal.fire({
       title: 'Are you sure?',
-      text: 'Do you want to delete the meal from your cart',
+      text: 'Do you want to delete the label',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

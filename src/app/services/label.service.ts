@@ -10,24 +10,24 @@ import { Label } from '../models/label';
 })
 export class LabelService {
 
-  private readonly CASES_API_URI = environment.labelApi;
+  private readonly LABELS_API_URI = environment.labelApi;
   private httpHeaders: HttpHeaders = new HttpHeaders().append("content-type", "application/json");
   
   constructor(private http: HttpClient) {}
 
   getLabels() {
-      return this.http.get<Label[]>(`${this.CASES_API_URI}/api/v1/labels/`, {headers: this.httpHeaders}).pipe(
+      return this.http.get<Label[]>(`${this.LABELS_API_URI}/api/v1/labels/`, {headers: this.httpHeaders}).pipe(
         retry(5),
         catchError(this.handleError)
       );
   }
 
   deleteLabel(id: string) {
-      return this.http.delete<Label[]>(`${this.CASES_API_URI}/api/v1/labels/${id}`);
+      return this.http.delete<void>(`${this.LABELS_API_URI}/api/v1/labels/${id}`);
   }
 
   getLabel(id: string) {
-      return this.http.get<Label>(`${this.CASES_API_URI}/api/v1/labels/${id}`, {headers: this.httpHeaders}).pipe(
+      return this.http.get<Label>(`${this.LABELS_API_URI}/api/v1/labels/${id}`, {headers: this.httpHeaders}).pipe(
         retry(5),
         catchError(this.handleError)
       );
@@ -35,12 +35,12 @@ export class LabelService {
 
   saveLabel(id: string, label: Label) {
     if( id !== "" && id != null ) {
-      return this.http.put<Label>(`${this.CASES_API_URI}/api/v1/labels/${id}`, label, {headers: this.httpHeaders}).pipe(
+      return this.http.put<Label>(`${this.LABELS_API_URI}/api/v1/labels/${id}`, label, {headers: this.httpHeaders}).pipe(
         retry(5),
         catchError(this.handleError)
       );
     } else {
-      return this.http.post<Label>(`${this.CASES_API_URI}/api/v1/labels/`, label, {headers: this.httpHeaders}).pipe(
+      return this.http.post<Label>(`${this.LABELS_API_URI}/api/v1/labels/`, label, {headers: this.httpHeaders}).pipe(
         retry(5),
         catchError(this.handleError)
       );

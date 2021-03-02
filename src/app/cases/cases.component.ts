@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 import { Case } from '../models/case';
 import { CaseService } from '../services/case.service';
 
@@ -11,20 +13,33 @@ import { CaseService } from '../services/case.service';
 export class CasesComponent implements OnInit, OnDestroy {
 
   cases: Case[] = [];
+  casesToReview: Case[] = [];
   loading: boolean = true;
   error: boolean = false;
   private casesSubscription: Subscription;
+  private deleteCaseSubscription: Subscription;
 
-  constructor(private caseService: CaseService) { }
+  constructor(
+    private caseService: CaseService,
+    private titleService: Title
+  ) {}
 
   ngOnInit(): void {
-    // Fetch User Cases
+    // Component Title
+    this.titleService.setTitle('COCUS - Cases');
+    // Fetch Labels
+    this.fetchCases();
+  }
+
+  fetchCases() {
+    this.loading = true;
+    this.cases = [];
     this.casesSubscription = this.caseService.getUserCases().subscribe(
-      cases => {
+      (cases) => {
         this.cases = cases;
         this.loading = false;
       },
-      err => {
+      (err) => {
         this.loading = false;
         this.error = false;
       }
@@ -32,9 +47,53 @@ export class CasesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if( this.casesSubscription != null ) {
+    if (this.casesSubscription != null) {
       this.casesSubscription.unsubscribe();
+    }
+    if (this.deleteCaseSubscription != null) {
+      this.deleteCaseSubscription.unsubscribe();
     }
   }
 
+  onDeleteCase(id) {
+    // User Confirmation
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete the case',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '<i class="far fa-check-circle"></i> Yes, delete it!',
+      cancelButtonText: '<i class="far fa-times-circle"></i> No, cancel',
+    }).then((result) => {
+      if (result.value) {
+        this.loading = true;
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'bottom-left',
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        this.deleteCaseSubscription = this.caseService
+          .deleteCase(id)
+          .subscribe(
+            () => {
+              Toast.fire({
+                icon: 'success',
+                title: 'Case has been deleted successfully',
+              });
+              // Reload
+              this.fetchCases();
+            },
+            () => {
+              Toast.fire({
+                icon: 'error',
+                title: 'An error occurred!',
+              });
+            }
+          );
+      }
+    });
+  }
 }
