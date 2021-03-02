@@ -1,9 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Label } from '../models/label';
+import { Page } from '../pagination/page';
+import { Pageable } from '../pagination/pageable';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +17,20 @@ export class LabelService {
   
   constructor(private http: HttpClient) {}
 
-  getLabels() {
-      return this.http.get<Label[]>(`${this.LABELS_API_URI}/api/v1/labels/`, {headers: this.httpHeaders}).pipe(
+  getLabels(search: string, pageable: Pageable) {
+    const params: HttpParams = new HttpParams().append('search', search)
+    .append('page', pageable.pageNumber.toString())
+    .append('size', pageable.pageSize.toString()); 
+      return this.http.get<Page<Label>>(`${this.LABELS_API_URI}/api/v1/labels/`, 
+        { headers: this.httpHeaders, params}).pipe(
+        retry(5),
+        catchError(this.handleError)
+      );
+  }
+
+  getAllLabels() {
+      return this.http.get<Array<Label>>(`${this.LABELS_API_URI}/api/v1/labels/list/all`, 
+        { headers: this.httpHeaders}).pipe(
         retry(5),
         catchError(this.handleError)
       );

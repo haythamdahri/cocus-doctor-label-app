@@ -42,6 +42,14 @@ export class CaseService {
       .pipe(retry(5), catchError(this.handleError));
   }
 
+  getUnreviewedCase() {
+    return this.http
+      .get<{unreviewedCases: number}>(`${this.CASES_API_URI}/api/v1/cases/users/current/unreviewedcases/counter`, {
+        headers: this.httpHeaders,
+      })
+      .pipe(retry(5), catchError(this.handleError));
+  }
+
   saveCase(id: string, customerCase: Case) {
     if (id !== '' && id != null) {
       return this.http

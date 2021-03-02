@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-12 text-center">
+        <strong>
+            <h1 class="display-4 text-center text-cocus">Reviews</h1>
+        </strong>
+        <hr />
+    </div>
+
+    <div class="col-8 mx-auto mt-3">
+        <p class="text-center mx-auto">
+            <strong>Filter by label</strong>
+        </p>
+        <div class="input-group input-group-sm">
+            <select (change)="onLabelChange($event.target.value)" id="labels" class="form-select form-select-sm"
+                aria-label=".form-select-sm example">
+                <option disabled><i class="fas fa-tags"></i> Filter By Label</option>
+                <option value="{{label?.id}}" *ngFor="let label of labels">
+                    {{label?.description}}
+                </option>
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-8 mx-auto mt-2 text-center">
+        <div *ngIf="loading" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="col-8 mx-auto mt-2 text-center">
+        <div *ngIf="!loading && page?.content?.length == 0" class="text-primary" role="status">
+            <div class="alert alert-secondary" role="alert">
+                <i class="fas fa-info"></i> No review found!
+            </div>
+        </div>
+    </div>
+
+    <div class="col-8 mx-auto mt-2 text-center">
+        <div *ngIf="error" class="spinner-border text-primary" role="status">
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-info"></i> An error occurred!
+            </div>
+        </div>
+    </div>
+
+    <div class="col-8 mx-auto mt-4">
+        <div class="card mb-3 shadow shadow-sm" *ngFor="let review of page?.content">
+            <div class="card-header bg-secondary text-white fw-bold">
+                Review {{review?.id}}
+                <ng-containe *ngIf="!review?.reviewed else reviewedCase">
+                    <span class="badge bg-dark float-end">Unreviewed</span>
+                </ng-containe>
+                <ng-template #reviewedCase>
+                    <b>{{review?.lastReviewsDate}}</b>
+                    <span class="badge bg-success float-end">Reviewed</span>
+                </ng-template>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{(review.content | slice:0:150) + (review.content.length > 150 ? '...' : '')}}</p>
+                <a routerLink="/reviews/{{review?.id}}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-info-circle"></i> Details
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="col-8 mx-auto pb-5">
+        <div class="col-12">
+            <hr class="my-no w-100" />
+            <app-custom-pagination [page]="page" [loading]="loading" (nextPageEvent)="getNextPage()"
+                (previousPageEvent)="getPreviousPage()" (pageSizeEvent)="getPageInNewSize($event)">
+            </app-custom-pagination>
+        </div>
+    </div>
+
+</div>

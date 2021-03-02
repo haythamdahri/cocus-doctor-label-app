@@ -15,6 +15,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { CustomPaginationComponent } from "./pagination/components/custom-pagination/custom-pagination.component";
+import { ReviewsComponent } from './reviews/reviews.component';
+import { DetailsComponent } from './reviews/details/details.component';
+import { ProcessingFormComponent } from './reviews/processing-form/processing-form.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,11 @@ import { CustomPaginationComponent } from "./pagination/components/custom-pagina
     LabelsComponent,
     LabelsFormComponent,
     CasesFormComponent,
-    CustomPaginationComponent
+    CustomPaginationComponent,
+    ReviewsComponent,
+    DetailsComponent,
+    ProcessingFormComponent
+    
   ],
   imports: [
     BrowserModule,

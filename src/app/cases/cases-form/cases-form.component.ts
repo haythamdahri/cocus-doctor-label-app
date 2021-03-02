@@ -12,14 +12,14 @@ import Swal from 'sweetalert2';
   templateUrl: './cases-form.component.html',
   styleUrls: ['./cases-form.component.sass']
 })
-export class CasesFormComponent implements OnInit {
+export class CasesFormComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   activatedRouteSubscription: Subscription;
   caseSubscription: Subscription;
   loading: boolean = true;
   error: boolean = false;
-  customerCase: Case = new Case('', '', false);
+  customerCase: Case = new Case('', '', [], false);
 
   constructor(private titleService: Title, private caseService: CaseService,
     private route: ActivatedRoute, private router: Router) { }

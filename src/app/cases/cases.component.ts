@@ -18,8 +18,10 @@ export class CasesComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   error: boolean = false;
   search: string = '';
+  unReviewedCasesCounter: number = 0;
   private casesSubscription: Subscription;
   private deleteCaseSubscription: Subscription;
+  private unreviewedCasesSubscription: Subscription;
 
   constructor(
     private caseService: CaseService,
@@ -32,10 +34,19 @@ export class CasesComponent implements OnInit, OnDestroy {
     this.titleService.setTitle('COCUS - Cases');
     // Fetch Labels
     this.fetchCases();
+    // Fetch Unreviewed Cases
+    this.fetchUnreviewedCases();
+  }
+
+  fetchUnreviewedCases() {
+    this.unreviewedCasesSubscription = this.caseService.getUnreviewedCase().subscribe(
+      (response) => {
+        this.unReviewedCasesCounter = response.unreviewedCases;
+      }
+    );
   }
 
   fetchCases() {
-    console.log(this.page.pageable.pageSize);
     this.loading = true;
     this.page.content = [];
     this.casesSubscription = this.caseService.getUserCases(this.search, this?.page?.pageable).subscribe(
@@ -56,6 +67,9 @@ export class CasesComponent implements OnInit, OnDestroy {
     }
     if (this.deleteCaseSubscription != null) {
       this.deleteCaseSubscription.unsubscribe();
+    }
+    if (this.unreviewedCasesSubscription != null) {
+      this.unreviewedCasesSubscription.unsubscribe();
     }
   }
 

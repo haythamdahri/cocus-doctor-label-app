@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { Label } from '../models/label';
 import { LabelService } from '../services/label.service';
 import Swal from 'sweetalert2';
+import { Page } from '../pagination/page';
+import { CustomPaginationService } from '../pagination/services/custom-pagination.service';
 
 @Component({
   selector: 'app-labels',
@@ -12,15 +14,17 @@ import Swal from 'sweetalert2';
 })
 export class LabelsComponent implements OnInit, OnDestroy {
   
-  labels: Label[] = [];
+  page: Page<Label> = new Page();
   loading: boolean = true;
   error: boolean = false;
+  search: string = '';
   private labelsSubscription: Subscription;
   private deleteLabelSubscription: Subscription;
 
   constructor(
     private labelService: LabelService,
-    private titleService: Title
+    private titleService: Title,
+    private paginationService: CustomPaginationService
   ) {}
 
   ngOnInit(): void {
@@ -32,10 +36,10 @@ export class LabelsComponent implements OnInit, OnDestroy {
 
   fetchLabels() {
     this.loading = true;
-    this.labels = [];
-    this.labelsSubscription = this.labelService.getLabels().subscribe(
-      (labels) => {
-        this.labels = labels;
+    this.page.content = [];
+    this.labelsSubscription = this.labelService.getLabels(this.search, this?.page?.pageable).subscribe(
+      (page) => {
+        this.page = page;
         this.loading = false;
       },
       (err) => {
@@ -95,4 +99,23 @@ export class LabelsComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  getNextPage(): void {
+    this.page.pageable = this.paginationService.getNextPage(this.page);
+    this.fetchLabels();
+  }
+
+  getPreviousPage(): void {
+    this.page.pageable = this.paginationService.getPreviousPage(this.page);
+    this.fetchLabels();
+  }
+
+  getPageInNewSize(pageSize: number): void {
+    this.page.pageable = this.paginationService.getPageInNewSize(
+      this.page,
+      pageSize
+    );
+    this.fetchLabels();
+  }
+
 }
