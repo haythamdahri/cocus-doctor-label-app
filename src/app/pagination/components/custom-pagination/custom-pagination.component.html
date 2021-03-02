@@ -1,0 +1,27 @@
+<div *ngIf="page" class="card-actions align-items-center d-flex justify-content-center">
+    <span class="align-self-center mb-1 mx-1 text-muted">Elements per page:</span>
+    <div class="dropdown">
+      <button class="btn btn-outline btn-sm border" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+        [ngClass]="{disabled: loading}">
+        {{page.size}} <i class="fas fa-caret-down"></i>
+      </button>
+      <div class="dropdown-menu" aria-labelledby="pageDropdown">
+        <a class="dropdown-item" [ngClass]="{'active': page?.size == 5}" [routerLink]="" (click)="updatePageSize(5)">5</a>
+        <a class="dropdown-item" [ngClass]="{'active': page?.size == 20}" [routerLink]="" (click)="updatePageSize(20)">20</a>
+        <a class="dropdown-item" [ngClass]="{'active': page?.size == 100}" [routerLink]="" (click)="updatePageSize(100)">100</a>
+      </div>
+    </div>
+    <span class="align-self-center mb-1 mr-2 text-muted">
+      Shows {{page.numberOfElements}} of {{page.totalElements}}
+    </span>
+    <a [routerLink]=""
+      class="btn btn-outline btn-sm" [ngClass]="{'disabled': page.first || loading }"
+      (click)="previousPage()">
+      <i class="fas fa-angle-left"></i>
+    </a>
+    <a [routerLink]=""
+      class="btn btn-outline btn-sm" [ngClass]="{'disabled': page.last || loading }"
+      (click)="nextPage()">
+      <i class="fas fa-angle-right"></i>
+    </a>
+  </div>

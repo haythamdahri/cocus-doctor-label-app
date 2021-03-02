@@ -19,7 +19,7 @@ export class CasesFormComponent implements OnInit {
   caseSubscription: Subscription;
   loading: boolean = true;
   error: boolean = false;
-  customerCase: Case = new Case('', '');
+  customerCase: Case = new Case('', '', false);
 
   constructor(private titleService: Title, private caseService: CaseService,
     private route: ActivatedRoute, private router: Router) { }

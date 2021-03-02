@@ -14,6 +14,7 @@ import { CasesFormComponent } from './cases/cases-form/cases-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { CustomPaginationComponent } from "./pagination/components/custom-pagination/custom-pagination.component";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { RouterModule } from '@angular/router';
     CasesComponent,
     LabelsComponent,
     LabelsFormComponent,
-    CasesFormComponent
+    CasesFormComponent,
+    CustomPaginationComponent
   ],
   imports: [
     BrowserModule,

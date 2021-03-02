@@ -3,6 +3,8 @@ import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Case } from '../models/case';
+import { Page } from '../pagination/page';
+import { CustomPaginationService } from '../pagination/services/custom-pagination.service';
 import { CaseService } from '../services/case.service';
 
 @Component({
@@ -12,16 +14,17 @@ import { CaseService } from '../services/case.service';
 })
 export class CasesComponent implements OnInit, OnDestroy {
 
-  cases: Case[] = [];
-  casesToReview: Case[] = [];
+  page: Page<Case> = new Page();
   loading: boolean = true;
   error: boolean = false;
+  search: string = '';
   private casesSubscription: Subscription;
   private deleteCaseSubscription: Subscription;
 
   constructor(
     private caseService: CaseService,
-    private titleService: Title
+    private titleService: Title,
+    private paginationService: CustomPaginationService
   ) {}
 
   ngOnInit(): void {
@@ -32,11 +35,12 @@ export class CasesComponent implements OnInit, OnDestroy {
   }
 
   fetchCases() {
+    console.log(this.page.pageable.pageSize);
     this.loading = true;
-    this.cases = [];
-    this.casesSubscription = this.caseService.getUserCases().subscribe(
-      (cases) => {
-        this.cases = cases;
+    this.page.content = [];
+    this.casesSubscription = this.caseService.getUserCases(this.search, this?.page?.pageable).subscribe(
+      (page) => {
+        this.page = page;
         this.loading = false;
       },
       (err) => {
@@ -96,4 +100,23 @@ export class CasesComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  getNextPage(): void {
+    this.page.pageable = this.paginationService.getNextPage(this.page);
+    this.fetchCases();
+  }
+
+  getPreviousPage(): void {
+    this.page.pageable = this.paginationService.getPreviousPage(this.page);
+    this.fetchCases();
+  }
+
+  getPageInNewSize(pageSize: number): void {
+    this.page.pageable = this.paginationService.getPageInNewSize(
+      this.page,
+      pageSize
+    );
+    this.fetchCases();
+  }
+
 }

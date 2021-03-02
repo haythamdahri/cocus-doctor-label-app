@@ -1,9 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Case } from '../models/case';
 import { map, retry, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { Pageable } from '../pagination/pageable';
+import { Page } from '../pagination/page';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +19,13 @@ export class CaseService {
 
   constructor(private http: HttpClient) {}
 
-  getUserCases() {
+  getUserCases(search: string, pageable: Pageable) {
+    const params: HttpParams = new HttpParams().append('search', search)
+    .append('page', pageable.pageNumber.toString())
+    .append('size', pageable.pageSize.toString()); 
     return this.http
-      .get<Case[]>(`${this.CASES_API_URI}/api/v1/cases/users/current`, {
-        headers: this.httpHeaders,
+      .get<Page<Case>>(`${this.CASES_API_URI}/api/v1/cases/users/current`, {
+        headers: this.httpHeaders, params
       })
       .pipe(retry(5), catchError(this.handleError));
   }
