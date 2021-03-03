@@ -3,8 +3,8 @@
         <strong>
             <h1 class="display-4 text-center text-cocus">Reviews</h1>
             <a routerLink="/reviews/{{review?.id}}/process">
-                <button class="btn btn-primary btn-sm mb-3">
-                    <i class="fas fa-microchip"></i> Review the case
+                <button class="btn btn-primary btn-sm mb-3" *ngIf="review?.reviewed">
+                    <i class="fas fa-microchip"></i> Edit Review
                 </button>
             </a>
         </strong>
@@ -31,7 +31,7 @@
                 <span class="badge bg-dark">Unreviewed</span>
             </ng-containe>
             <ng-template #reviewedCase>
-                <b>{{review?.lastReviewsDate}}</b> |
+                <b>{{review?.lastReviewDate | date:'medium' }}</b> |
                 <span class="badge bg-success">Reviewed</span>
             </ng-template>
         </div>
@@ -41,7 +41,14 @@
         </div>
         <div class="col-4">
             <h3 class="text-center mx-auto">Assigned Labels</h3>
-            <p>{{review?.conditions}}</p>
+            <ul class="list-group">
+                <ng-container *ngFor="let label of review?.conditions">
+                    <li class="list-group-item d-flex justify-content-between align-items-center"
+                        *ngIf="review?.conditions?.includes(label)">
+                        {{label?.description}}
+                    </li>
+                </ng-container>
+            </ul>
             <div *ngIf="review?.conditions == null || review?.conditions?.length == 0" class="alert alert-secondary"
                 role="alert">
                 <i class="fas fa-info"></i> No assigned labels!

@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-12 text-center mb-3">
+        <strong>
+            <h1 class="display-4 text-center text-cocus">Cases Labeling</h1>
+        </strong>
+        <hr />
+    </div>
+
+    <div class="col-8 mx-auto mt-2 text-center">
+        <div *ngIf="loading" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <ng-container *ngIf="!loading && review != null && review?.id !== ''">
+        <div class="col-8">
+            <h3>Please Review This Case:</h3>
+            <p class="border border-4" style="font-size: 20px">{{review?.content}}</p>
+        </div>
+        <div class="col-4">
+            <h3 class="text-center mx-auto">Select Condition</h3>
+            <select (change)="onLabelChange()" [formControl]="labelsControl" class="form-select" multiple aria-label="multiple select example">
+                <option value="{{label?.id}}" [selected]="hasLabelsAssigned(label)" *ngFor="let label of labels">
+                    {{label?.description}}
+                </option>
+            </select>
+        </div>
+        <div class="col-12 mt-4 pb-5">
+            <button (click)="saveAndGetNextCase()" type="button" class="btn btn-outline-secondary float-end"><i class="fas fa-arrow-circle-right"></i> Next Case</button>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!error && !loading && (review == null || review?.id === '')">
+        <div class="col-8 mx-auto">
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check-double"></i> Congraluations, there are no more cases to review!
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="error && !loading">
+        <div class="col-8 mx-auto">
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-info-circle"></i> Oops, please try again!
+            </div>
+        </div>
+    </ng-container>
+
+</div>

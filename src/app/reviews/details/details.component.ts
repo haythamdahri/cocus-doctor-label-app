@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { ReviewsService } from 'src/app/services/reviews.service';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.sass']
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnDestroy {
 
   loading: boolean = true;
   error: boolean = false;
@@ -35,6 +35,15 @@ export class DetailsComponent implements OnInit {
         }
       }
     );
+  }
+    
+  ngOnDestroy(): void {
+    if( this.reviewSubscription != null ) {
+      this.reviewSubscription.unsubscribe();
+    }
+    if( this.activatedRouteSubscription != null ) {
+      this.activatedRouteSubscription.unsubscribe();
+    }
   }
 
   getReview(id: string) {

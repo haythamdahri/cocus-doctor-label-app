@@ -39,6 +39,22 @@ export class ReviewsService {
       );
   }
 
+  getUserFirstUnreviewedReview() {
+      return this.http.get<Case>(`${this.CASES_API_URI}/api/v1/reviews/unreviewed/first`, 
+        { headers: this.httpHeaders}).pipe(
+        retry(5),
+        catchError(this.handleError)
+      );
+  }
+
+  reviewCase(id: string, labels: string[]) {
+      return this.http.post<Case>(`${this.CASES_API_URI}/api/v1/reviews/`, {id, labels},
+        { headers: this.httpHeaders}).pipe(
+        retry(5),
+        catchError(this.handleError)
+      );
+  }
+
   deleteReview(id: string) {
       return this.http.delete<void>(`${this.CASES_API_URI}/api/v1/reviews/${id}`, 
         { headers: this.httpHeaders}).pipe(

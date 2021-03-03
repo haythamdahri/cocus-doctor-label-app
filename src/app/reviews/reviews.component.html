@@ -52,7 +52,7 @@
                     <span class="badge bg-dark float-end">Unreviewed</span>
                 </ng-containe>
                 <ng-template #reviewedCase>
-                    <b>{{review?.lastReviewsDate}}</b>
+                    <b class="text-dark">{{review?.lastReviewDate | date:'medium' }}</b>
                     <span class="badge bg-success float-end">Reviewed</span>
                 </ng-template>
             </div>

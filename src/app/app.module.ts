@@ -18,6 +18,7 @@ import { CustomPaginationComponent } from "./pagination/components/custom-pagina
 import { ReviewsComponent } from './reviews/reviews.component';
 import { DetailsComponent } from './reviews/details/details.component';
 import { ProcessingFormComponent } from './reviews/processing-form/processing-form.component';
+import { CaseslabelingComponent } from './caseslabeling/caseslabeling.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ProcessingFormComponent } from './reviews/processing-form/processing-fo
     CustomPaginationComponent,
     ReviewsComponent,
     DetailsComponent,
-    ProcessingFormComponent
+    ProcessingFormComponent,
+    CaseslabelingComponent
     
   ],
   imports: [

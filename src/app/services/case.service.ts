@@ -56,13 +56,13 @@ export class CaseService {
         .put<Case>(`${this.CASES_API_URI}/api/v1/cases/${id}`, customerCase, {
           headers: this.httpHeaders,
         })
-        .pipe(retry(5), catchError(this.handleError));
+        .pipe(catchError(this.handleError));
     } else {
       return this.http
         .post<Case>(`${this.CASES_API_URI}/api/v1/cases/`, customerCase, {
           headers: this.httpHeaders,
         })
-        .pipe(retry(5), catchError(this.handleError));
+        .pipe(catchError(this.handleError));
     }
   }
 

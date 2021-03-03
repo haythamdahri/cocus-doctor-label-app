@@ -1,1 +1,49 @@
-<p>processing-form works!</p>
+<div class="row">
+    <div class="col-12 text-center mb-3">
+        <strong>
+            <h1 class="display-4 text-center text-cocus">Review</h1>
+        </strong>
+        <hr />
+    </div>
+
+    <div class="col-8 mx-auto mt-2 text-center">
+        <div *ngIf="loading" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="col-8 mx-auto mt-2 text-center" *ngIf="!loading">
+        <div *ngIf="review === null || review?.id === ''" class="text-primary" role="status">
+            <div class="alert alert-secondary" role="alert">
+                <i class="fas fa-info"></i> No review found!
+            </div>
+        </div>
+        <div *ngIf="review != null && review?.reviewed == false" class="text-primary" role="status">
+            <div class="alert alert-secondary" role="alert">
+                <i class="fas fa-info"></i> Case is not reviewed yet!
+            </div>
+        </div>
+    </div>
+
+    <ng-container *ngIf="!loading && review != null && review?.id !== '' && review?.reviewed == true">
+        <div class="col-12 text-center mx-auto">
+            <ng-container>
+                <b class="me-4">{{review?.lastReviewDate | date:'medium' }}</b>
+                <span class="badge bg-success">Reviewed</span>
+            </ng-container>
+        </div>
+        <div class="col-8">
+            <h3>Case Content:</h3>
+            <p class="border border-4" style="font-size: 20px">{{review?.content}}</p>
+        </div>
+        <div class="col-4">
+            <h3 class="text-center mx-auto">Assigned Labels</h3>
+            <select  [formControl]="labelsControl" class="form-select" multiple aria-label="multiple select example">
+                <option value="{{label?.id}}" [selected]="hasLabelsAssigned(label)" *ngFor="let label of labels">
+                    {{label?.description}}
+                </option>
+            </select>
+        </div>
+    </ng-container>
+
+</div>

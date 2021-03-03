@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CasesFormComponent } from './cases/cases-form/cases-form.component';
 import { CasesComponent } from './cases/cases.component';
+import { CaseslabelingComponent } from './caseslabeling/caseslabeling.component';
 import { HomeComponent } from './home/home.component';
 import { LabelsFormComponent } from './labels/labels-form/labels-form.component';
 import { LabelsComponent } from './labels/labels.component';
@@ -24,7 +25,8 @@ const routes: Routes = [
       { path: 'cases/save/:id', component: CasesFormComponent },
       { path: 'reviews', component: ReviewsComponent },
       { path: 'reviews/:id', component: DetailsComponent },
-      { path: 'reviews/:id/process', component: ProcessingFormComponent }
+      { path: 'reviews/:id/process', component: ProcessingFormComponent },
+      { path: 'labeling', component: CaseslabelingComponent }
     ],
   },
 ];
