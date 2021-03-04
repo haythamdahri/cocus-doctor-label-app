@@ -7,6 +7,7 @@ import { Case } from 'src/app/models/case';
 import { Label } from 'src/app/models/label';
 import { LabelService } from 'src/app/services/label.service';
 import { ReviewsService } from 'src/app/services/reviews.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-processing-form',
@@ -86,5 +87,40 @@ export class ProcessingFormComponent implements OnInit, OnDestroy {
 
   hasLabelsAssigned(label: Label) {
     return this.review?.conditions?.filter(l => l?.id === label?.id).length > 0;
+  }
+
+
+  saveReview() {
+    console.log(this.labelsControl.value)
+    this.loading = true;
+    this.reviewSubscription = this.reviewsService.reviewCase(this.review?.id, this.labelsControl?.value).subscribe(
+      (review) => {
+        this.loading = false;
+        this.review = review;
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-right",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        Toast.fire({
+          icon: 'success',
+          title: 'Review has been saved successfully',
+        });
+      },
+      (err) => {
+        this.loading = false;
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-right",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        Toast.fire({
+          icon: 'error',
+          title: 'An error occured, please try again',
+        });
+      }
+    )
   }
 }
